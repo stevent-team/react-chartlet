@@ -1,0 +1,21 @@
+{
+  "name": "react-chartlet",
+  "version": "1.0.0",
+  "description": "A dead simple and tiny charting library for React",
+  "main": "index.js",
+  "author": "Benji Grant (https://bengrant.dev)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel watch index.js",
+    "build": "parcel build index.js"
+  },
+  "devDependencies": {
+    "parcel": "^2.4.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  }
+}
