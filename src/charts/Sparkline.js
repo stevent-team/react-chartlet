@@ -3,7 +3,7 @@ import Responsive from '../components/Responsive'
 
 const Sparkline = ({
   width,
-  height = 100,
+  height='100%',
   data = [],
   min,
   max,
