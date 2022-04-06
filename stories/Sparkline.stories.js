@@ -1,4 +1,4 @@
-import { Sparkline, Responsive } from '../src'
+import { Sparkline } from '../src'
 
 export default { component: Sparkline }
 
@@ -9,15 +9,6 @@ const generateData = (length = 20) => Array.from({length}, () => Math.floor(Math
 export const Unstyled = Template.bind({})
 Unstyled.args = {
   data: generateData(),
-}
-
-export const AutoWidth = args => (
-  <Responsive>
-    {({ width }) => <Sparkline width={width} {...args} />}
-  </Responsive>
-)
-AutoWidth.args = {
-  data: generateData(50),
 }
 
 export const Styled = Template.bind({})
