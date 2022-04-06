@@ -3,7 +3,7 @@ import Responsive from '../components/Responsive'
 
 const Sparkline = ({
   width,
-  height='100%',
+  height = '100%',
   data = [],
   min,
   max,
@@ -14,13 +14,19 @@ const Sparkline = ({
   const marginFallback = typeof margin === 'number' ? margin : 0
 
   return (
-    <Responsive style={{width, height}}>
+    <Responsive style={{ width, height }}>
       {({ width, height }) => <svg
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
         {...props}
-        style={{display: 'block', boxSizing: 'border-box', ...props.style}}
+        style={{
+          display: 'block',
+          boxSizing: 'border-box',
+          position: 'absolute',
+          inset: 0,
+          ...props.style
+        }}
       >
         <Line
           top={margin?.top ?? marginFallback}
