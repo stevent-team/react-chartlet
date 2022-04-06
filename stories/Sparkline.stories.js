@@ -32,3 +32,8 @@ Styled.args = {
   },
   margin: 10,
 }
+
+export const FlatLine = Template.bind({})
+FlatLine.args = {
+  data: [1]
+}

@@ -3,7 +3,7 @@ import Line from '../Components/Line'
 const Sparkline = ({
   width = 200,
   height = 100,
-  data,
+  data = [],
   min,
   max,
   lineStyle,
