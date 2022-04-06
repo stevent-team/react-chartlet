@@ -14,7 +14,7 @@ const Sparkline = ({
   const marginFallback = typeof margin === 'number' ? margin : 0
 
   return (
-    <Responsive width={width} height={height}>
+    <Responsive style={{width, height}}>
       {({ width, height }) => <svg
         width={width}
         height={height}

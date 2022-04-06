@@ -11,6 +11,13 @@ Unstyled.args = {
   data: generateData(),
 }
 
+export const FixedSize = Template.bind({})
+FixedSize.args = {
+  data: generateData(),
+  width: 500,
+  height: 50,
+}
+
 export const Styled = Template.bind({})
 Styled.args = {
   data: generateData(),
