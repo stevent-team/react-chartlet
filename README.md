@@ -27,31 +27,8 @@ import { Sparkline } from 'react-chartlet'
 const YourPage = () => (
   <Sparkline
     data={[2, 5, 3, 8, 1]}
-    width={200}
-    height={100}
+    height="100px"
   />
-)
-
-export default YourPage
-```
-
-### Responsive chart
-
-You can use the `Responsive` element to make your chart match the size of it's parent container. `Responsive` returns a function with it's own boundingClientRect object as a parameter; you can use this to set the width (or height) of the chart inside.
-
-Note that setting the height from the parent rect is only advisable if you're using a flex or grid layout.
-
-```js
-import { Responsive, Sparkline } from 'react-chartlet'
-
-const YourPage = () => (
-  <Responsive>
-    {({ width }) => <Sparkline
-      data={[2, 5, 3, 8, 1]}
-      width={width}
-      height={100}
-    />}
-  </Responsive>
 )
 
 export default YourPage
@@ -64,8 +41,8 @@ export default YourPage
 | Property | Type | Default | Description |
 | - | - | - | - |
 | data | array | `[]` | An array of numbers |
-| width | number | `200` | Width of your chart |
-| height | number | `100` | Height of your chart |
+| width | string | - | CSS width of your chart |
+| height | string | `100%` | CSS height of your chart |
 | min | number | smallest datapoint in `data` array | The minimum value on the y axis |
 | max | number | largest datapoint in `data` array | The maximum value on the y axis |
 | margin | number or object | `{ top: 5, bottom: 5 }` | Margin between the border of the chart and the line, either as a number to set all sides, or an object to set specific sides, like `{ top: 5, right: 5, bottom: 5, left: 5 }` |
