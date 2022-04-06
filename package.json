@@ -1,9 +1,10 @@
 {
   "name": "react-chartlet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A dead simple and tiny charting library for React",
   "source": "src/index.js",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
   "author": "Benji Grant (https://bengrant.dev)",
   "license": "MIT",
   "scripts": {
