@@ -1,1 +1,3 @@
-export { default as Sparkline } from './Charts/Sparkline'
+export { default as Sparkline } from './charts/Sparkline'
+
+export { default as Responsive } from './components/Responsive'

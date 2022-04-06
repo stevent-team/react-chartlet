@@ -35,6 +35,28 @@ const YourPage = () => (
 export default YourPage
 ```
 
+### Responsive chart
+
+You can use the `Responsive` element to make your chart match the size of it's parent container. `Responsive` returns a function with it's own boundingClientRect object as a parameter; you can use this to set the width (or height) of the chart inside.
+
+Note that setting the height from the parent rect is only advisable if you're using a flex or grid layout.
+
+```js
+import { Responsive, Sparkline } from 'react-chartlet'
+
+const YourPage = () => (
+  <Responsive>
+    {({ width }) => <Sparkline
+      data={[2, 5, 3, 8, 1]}
+      width={width}
+      height={100}
+    />}
+  </Responsive>
+)
+
+export default YourPage
+```
+
 ## API Reference
 
 ### Sparkline

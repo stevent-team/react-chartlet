@@ -1,4 +1,4 @@
-import { Sparkline } from '../src'
+import { Sparkline, Responsive } from '../src'
 
 export default { component: Sparkline }
 
@@ -11,11 +11,13 @@ Unstyled.args = {
   data: generateData(),
 }
 
-export const Wide = Template.bind({})
-Wide.args = {
+export const AutoWidth = args => (
+  <Responsive>
+    {({ width }) => <Sparkline width={width} {...args} />}
+  </Responsive>
+)
+AutoWidth.args = {
   data: generateData(50),
-  width: 400,
-  height: 50,
 }
 
 export const Styled = Template.bind({})

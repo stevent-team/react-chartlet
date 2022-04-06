@@ -1,4 +1,4 @@
-import Line from '../Components/Line'
+import Line from '../components/Line'
 
 const Sparkline = ({
   width = 200,

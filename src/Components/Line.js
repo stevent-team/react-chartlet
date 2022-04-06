@@ -1,4 +1,4 @@
-const scale = (number, min, max, lowest, highest) => (max-min)*(number-lowest)/(highest-lowest)+min
+import { scale } from '../utils'
 
 const Line = ({
   data,
