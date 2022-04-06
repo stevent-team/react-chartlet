@@ -2,17 +2,25 @@
   "name": "react-chartlet",
   "version": "1.0.0",
   "description": "A dead simple and tiny charting library for React",
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "Benji Grant (https://bengrant.dev)",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel watch index.js",
-    "build": "parcel build index.js"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "devDependencies": {
-    "parcel": "^2.4.1",
+    "@babel/core": "^7.17.8",
+    "@storybook/addon-actions": "^6.4.20",
+    "@storybook/addon-essentials": "^6.4.20",
+    "@storybook/addon-interactions": "^6.4.20",
+    "@storybook/addon-links": "^6.4.20",
+    "@storybook/react": "^6.4.20",
+    "@storybook/testing-library": "^0.0.9",
+    "babel-loader": "^8.2.4",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "storybook-dark-mode": "^1.0.9"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
