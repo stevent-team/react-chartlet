@@ -4,10 +4,10 @@ import { CATEGORICAL } from '../utils/colors'
 
 const TAU = Math.PI * 2
 
-const CircleSegment = ({ width, height, start=0, end=.3, ...props }) => {
+const CircleSegment = ({ width, height, hole=.5, start=0, end=.3, ...props }) => {
   const center = { x: width/2, y: height/2 }
   const radius = Math.min(width, height) / 2
-  const innerRadius = radius / 2
+  const innerRadius = radius * hole
   const strokeWidth = radius - innerRadius
 
   const innerA = {
@@ -44,16 +44,12 @@ const Donut = ({
   height = '100%',
   data = [],
   colors = CATEGORICAL,
-  min,
-  max,
   segmentStyle,
   segmentStyles,
   offset=-.25,
-  margin = { top: 5, bottom: 5 },
+  hole=.5,
   ...props
 }) => {
-  const marginFallback = typeof margin === 'number' ? margin : 0
-
   const sum = data.reduce((a, b) => a + b, 0)
   const portions = data.map((x, i) => {
     const previousSum = data.slice(0, i).reduce((a, b) => a + b, 0)
@@ -72,6 +68,7 @@ const Donut = ({
               height={autoHeight}
               start={portion.start + offset}
               end={portion.end + offset}
+              hole={hole}
               style={{...segmentStyle, ...segmentStyles?.[i] }} />
           )}
         </ChartSvg>
