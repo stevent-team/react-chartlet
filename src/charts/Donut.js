@@ -33,9 +33,9 @@ const CircleSegment = ({ width, height, hole=.5, start=0, end=.3, ...props }) =>
   return  <path d={
     `M${innerA.x} ${innerA.y}
      L${outerA.x} ${outerA.y}
-     A${radius} ${radius} 1 ${Number(end - start > .5)} 1 ${outerB.x} ${outerB.y}
+     A${radius} ${radius} 1 ${Number(end - start >= .5)} 1 ${outerB.x} ${outerB.y}
      L${innerB.x} ${innerB.y}
-     A${innerRadius} ${innerRadius} 0 ${Number(end - start > .5)} 0 ${innerA.x} ${innerA.y}`
+     A${innerRadius} ${innerRadius} 0 ${Number(end - start >= .5)} 0 ${innerA.x} ${innerA.y}`
   } {...props} />
 }
 
@@ -46,7 +46,7 @@ const Donut = ({
   colors = CATEGORICAL,
   segmentStyle,
   segmentStyles,
-  offset=-.25,
+  offset=0,
   hole=.5,
   ...props
 }) => {
@@ -66,8 +66,8 @@ const Donut = ({
               fill={colors?.[i % colors?.length]}
               width={autoWidth}
               height={autoHeight}
-              start={portion.start + offset}
-              end={portion.end + offset}
+              start={portion.start + offset + (data.length === 1 ? 0.000001 : 0)}
+              end={portion.end + offset - (data.length === 1 ? 0.000001 : 0)}
               hole={hole}
               style={{...segmentStyle, ...segmentStyles?.[i] }} />
           )}
