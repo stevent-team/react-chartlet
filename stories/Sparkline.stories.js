@@ -12,6 +12,11 @@ Unstyled.args = {
   height: 100,
 }
 
+export const Tooltip = args => <Sparkline data={[0,2,8,3,6,3,6]} height="100px" tooltip={{
+  handle: point => console.log(point),
+  close: () => console.warn('CLOSE'),
+}} {...args} />
+
 export const FillContainer = args => <div style={{ width: '50%', height: '50px', margin: 'auto' }}>
   <Sparkline {...args} />
 </div>
