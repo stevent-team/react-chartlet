@@ -6,7 +6,10 @@ const Responsive = ({ children, ...props }) => {
 
   const ref = useResize(el => setRect(el.getBoundingClientRect()))
 
-  return <div ref={ref} {...props}>
+  return <div ref={ref} {...props} style={{
+    position: 'relative',
+    ...props.style
+  }}>
     {children(rect)}
   </div>
 }

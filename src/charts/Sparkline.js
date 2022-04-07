@@ -1,9 +1,10 @@
 import Line from '../components/Line'
 import Responsive from '../components/Responsive'
+import ChartSvg from '../components/ChartSvg'
 
 const Sparkline = ({
   width,
-  height='100%',
+  height = '100%',
   data = [],
   min,
   max,
@@ -14,25 +15,21 @@ const Sparkline = ({
   const marginFallback = typeof margin === 'number' ? margin : 0
 
   return (
-    <Responsive style={{width, height}}>
-      {({ width, height }) => <svg
-        width={width}
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
-        {...props}
-        style={{display: 'block', boxSizing: 'border-box', ...props.style}}
-      >
-        <Line
-          top={margin?.top ?? marginFallback}
-          left={margin?.left ?? marginFallback}
-          data={data}
-          width={width - (margin?.right ?? marginFallback)*2}
-          height={height - (margin?.bottom ?? marginFallback)*2}
-          min={min}
-          max={max}
-          style={lineStyle}
-        />
-      </svg>}
+    <Responsive style={{ width, height }}>
+      {({ width: autoWidth, height: autoHeight }) => (
+        <ChartSvg width={autoWidth} height={autoHeight} {...props} >
+          <Line
+            top={margin?.top ?? marginFallback}
+            left={margin?.left ?? marginFallback}
+            data={data}
+            width={autoWidth - (margin?.right ?? marginFallback)*2}
+            height={autoHeight - (margin?.bottom ?? marginFallback)*2}
+            min={min}
+            max={max}
+            style={lineStyle}
+          />
+        </ChartSvg>
+      )}
     </Responsive>
   )
 }

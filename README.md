@@ -1,6 +1,6 @@
 # React Chartlet
 ![npm version](https://img.shields.io/npm/v/react-chartlet)
-![minified size](https://img.shields.io/badge/minified%20size-680%20B-blue)
+![minified size](https://img.shields.io/badge/minified%20size-730%20B-blue)
 
 A dead simple and tiny React charting library
 
@@ -18,6 +18,8 @@ yarn add react-chartlet
 - [ ] Line
 
 ## Examples
+
+Please note that all charts are responsive by default; they will grow to fill the width of their container, and have height set to `100%`. You can set a specific size on them, however if you don't your chart may not show up due to it's height being 0.
 
 ### Sparkline
 
