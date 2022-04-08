@@ -74,7 +74,7 @@ export default YourPage
 | height | string | `100%` | CSS height of your chart |
 | colors | string | `CATEGORICAL` | CSS colours used for each data point |
 | style | object | `{}` | Directly set the style object of the svg container |
-| offset | number | 0 | Starting point on circle for the first segment as a portion of a full rotation |
+| offset | number | 0 | Set the rotation offset between 0 and 1 |
 | hole | number | 0.5 | Portion of the diameter used for each segments inner radius |
 | segmentStyle | object | `{}` | Set the style object of all donut segments |
 | segmentStyles | array | - | Set the styles used for each donut segments |
