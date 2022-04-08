@@ -13,18 +13,30 @@ const legendStyle = {
   height: 'max-content',
 }
 
-const Legend = ({ data, labels, colors=CATEGORICAL, bulletSize='15px', ...props }) => {
+const Legend = ({
+  data,
+  labels,
+  colors=CATEGORICAL,
+  bulletSize='15px',
+  labelStyle,
+  percentageStyle,
+  ...props }) => {
   
   const sum = data.reduce((a, b) => a + b)
   return <div {...props} style={{...legendStyle, ...props?.style }}>
     {data.map((x, i) => <>
+      {/* Bullet */}
       <div style={{
         borderRadius: '50%',
         width: bulletSize,
         height: bulletSize,
         background: colors[i] }}/>
-      <div style={{ justifySelf: 'end' }}>{Math.floor(x/sum * 100)}%</div>
-      <div>{labels[i]}</div>
+
+      {/* Percentage */}
+      <div style={{ justifySelf: 'end', ...percentageStyle }}>{Math.floor(x/sum * 100)}%</div>
+      
+      {/* Label */}
+      <div style={labelStyle}>{labels[i]}</div>
     </>)}
   </div>
 }
