@@ -5,7 +5,6 @@ export default { component: Donut }
 const Template = args => <Donut {...args} />
 
 const generateData = (length = 3) => Array.from({length}, () => Math.floor(Math.random() * 40))
-const generateLotsOfData = (length = 15) => Array.from({length}, () => Math.floor(Math.random() * 40))
 
 export const Unstyled = Template.bind({})
 Unstyled.args = {
@@ -43,7 +42,7 @@ OneCategory.args = {
 
 export const ManyCategories = Template.bind({})
 ManyCategories.args = {
-  data: generateLotsOfData(),
+  data: generateData(15),
   height: 300,
 }
 
