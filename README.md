@@ -36,6 +36,20 @@ const YourPage = () => (
 export default YourPage
 ```
 
+### Donut
+
+```js
+import { Donut } from 'react-chartlet'
+
+const MyPage = () => (
+  <Donut
+    data={[2, 5, 3]}
+    height="100px"
+  />
+)
+
+export default YourPage
+```
 ## API Reference
 
 ### Sparkline
@@ -50,6 +64,20 @@ export default YourPage
 | margin | number or object | `{ top: 5, bottom: 5 }` | Margin between the border of the chart and the line, either as a number to set all sides, or an object to set specific sides, like `{ top: 5, right: 5, bottom: 5, left: 5 }` |
 | style | object | `{}` | Directly set the style object of the svg container |
 | lineStyle | object | `{}` | Set the style object of the line |
+
+### Donut
+
+| Property | Type | Default | Description |
+| - | - | - | - |
+| data | array | `[]` | An array of numbers |
+| width | string | - | CSS width of your chart |
+| height | string | `100%` | CSS height of your chart |
+| colors | string | the `colors.CATEGORICAL` palette | CSS colours used for each data point |
+| style | object | `{}` | Directly set the style object of the svg container |
+| offset | number | 0 | Set the rotation offset between 0 and 1 |
+| hole | number | 0.5 | Donut hole size as a portion of the diameter |
+| segmentStyle | object | `{}` | Set the style object of all donut segments |
+| segmentStyles | array | - | Set the styles used for each donut segments |
 
 ## Development
 
