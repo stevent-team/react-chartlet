@@ -8,7 +8,6 @@ const CircleSegment = ({ width, height, hole=.5, start=0, end=.3, ...props }) =>
   const center = { x: width/2, y: height/2 }
   const radius = Math.min(width, height) / 2
   const innerRadius = radius * hole
-  const strokeWidth = radius - innerRadius
 
   const innerA = {
     x: center.x + Math.cos(start * TAU) * innerRadius,
@@ -60,14 +59,34 @@ const Donut = ({
     <Responsive style={{ width, height }}>
       {({ width: autoWidth, height: autoHeight }) => (
         <ChartSvg width={autoWidth} height={autoHeight} {...props} >
-          {portions.map((portion, i) =>
+          {/* Render a single portion as two identical segments */}
+          {data.length === 1 && <>
+            <CircleSegment
+              fill={colors?.[0]}
+              style={{...segmentStyle, ...segmentStyles?.[0]}}
+              hole={hole}
+              width={autoWidth}
+              height={autoHeight}
+              start={0 + offset}
+              end={0.5 + offset}/>
+            <CircleSegment
+              fill={colors[0]}
+              style={{...segmentStyle, ...segmentStyles?.[0]}}
+              hole={hole}
+              width={autoWidth}
+              height={autoHeight}
+              start={0.5}
+              end={1}/>
+          </>}
+          {/* Render multiple portions as seperate segments */}
+          {data.length > 1 && portions.map((portion, i) =>
             <CircleSegment
               key={i}
               fill={colors?.[i % colors?.length]}
               width={autoWidth}
               height={autoHeight}
-              start={portion.start + offset + (data.length === 1 ? 0.000001 : 0)}
-              end={portion.end + offset - (data.length === 1 ? 0.000001 : 0)}
+              start={portion.start + offset}
+              end={portion.end + offset}
               hole={hole}
               style={{...segmentStyle, ...segmentStyles?.[i] }} />
           )}
