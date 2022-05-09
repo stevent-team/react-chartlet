@@ -91,6 +91,7 @@ export default YourPage
 | margin | number or object | `{ top: 5, bottom: 5 }` | Margin between the border of the chart and the line, either as a number to set all sides, or an object to set specific sides, like `{ top: 5, right: 5, bottom: 5, left: 5 }` |
 | style | object | `{}` | Directly set the style object of the svg container |
 | lineStyle | object | `{}` | Set the style object of the line |
+| tooltip | object | `{}` | An object with two functions, `handle` and `close` |
 
 ### Donut
 
