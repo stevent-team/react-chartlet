@@ -13,8 +13,24 @@ Unstyled.args = {
 }
 
 export const Tooltip = args => <Sparkline data={[0,2,8,3,6,3,6]} height="100px" tooltip={{
-  handle: point => console.log(point),
-  close: () => console.warn('CLOSE'),
+  handle: point => {
+    const tooltip = document.getElementById('rc-tooltip') || document.createElement('div')
+    tooltip.id = 'rc-tooltip'
+    tooltip.style.position = 'fixed'
+    console.log(point)
+    tooltip.style.top = point.y + 'px'
+    tooltip.style.left = point.x + 'px'
+    tooltip.style.background = 'white'
+    tooltip.style.padding = '.3em'
+    tooltip.style.fontFamily = 'sans-serif'
+    tooltip.style.border = '2px solid rebeccapurple'
+    tooltip.style.borderRadius = '5px'
+    tooltip.innerHTML = point.value
+    if (!document.body.contains(tooltip)) document.body.append(tooltip)
+  },
+  close: () => {
+    document.getElementById('rc-tooltip')?.remove()
+  },
 }} {...args} />
 
 export const FillContainer = args => <div style={{ width: '50%', height: '50px', margin: 'auto' }}>
