@@ -21,7 +21,7 @@ const Legend = ({
   labelStyle,
   percentageStyle,
   ...props }) => {
-  
+
   const sum = data.reduce((a, b) => a + b)
   return <div {...props} style={{...legendStyle, ...props?.style }}>
     {data.map((x, i) => <>
@@ -34,7 +34,7 @@ const Legend = ({
 
       {/* Percentage */}
       <div style={{ justifySelf: 'end', ...percentageStyle }}>{Math.floor(x/sum * 100)}%</div>
-      
+
       {/* Label */}
       <div style={labelStyle}>{labels[i]}</div>
     </>)}

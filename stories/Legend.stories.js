@@ -1,5 +1,4 @@
-import { Legend } from '../src'
-import { Donut } from '../src'
+import { Legend, Donut } from '../src'
 
 export default { component: Legend }
 

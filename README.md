@@ -47,9 +47,36 @@ const MyPage = () => (
     height="100px"
   />
 )
+```
+
+### Legend
+
+```js
+import { Donut, Legend } from 'react-chartlet'
+
+const MyPage = () => {
+  const data = [
+    { label: 'Carrots', value: 3 },
+    { label: 'Tomatoes', value: 5 },
+    { label: 'Potatoes', value: 2 },
+  ]
+  return (
+    <div style={{ display: 'flex', gap: '2em' }}>
+      <Donut
+        data={data.map(row => row.value)}
+        height="100px"
+      />
+      <Legend
+        data={data.map(row => row.value)}
+        labels={data.map(row => row.label)}
+      />
+    </div>
+  )
+}
 
 export default YourPage
 ```
+
 ## API Reference
 
 ### Sparkline
@@ -72,12 +99,23 @@ export default YourPage
 | data | array | `[]` | An array of numbers |
 | width | string | - | CSS width of your chart |
 | height | string | `100%` | CSS height of your chart |
-| colors | string | the `colors.CATEGORICAL` palette | CSS colours used for each data point |
+| colors | array | The `colors.CATEGORICAL` palette | CSS colours used for each data point |
 | style | object | `{}` | Directly set the style object of the svg container |
 | offset | number | 0 | Set the rotation offset between 0 and 1 |
 | hole | number | 0.5 | Donut hole size as a portion of the diameter |
 | segmentStyle | object | `{}` | Set the style object of all donut segments |
 | segmentStyles | array | - | Set the styles used for each donut segments |
+
+### Legend
+
+| Property | Type | Default | Description |
+| - | - | - | - |
+| data | array | `[]` | An array of numbers, should match your chart |
+| labels | array | `[]` | An array of strings, in the same order as your data array |
+| colors | array | the `colors.CATEGORICAL` palette | CSS colours used for each data point |
+| bulletSize | string | `15px` | The size of the colour bullets |
+| labelStyle | object | `{}` | Set the style object of all labels |
+| percentageStyle | object | `{}` | Set the style object of all percentage labels |
 
 ## Development
 
