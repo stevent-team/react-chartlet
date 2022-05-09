@@ -1,6 +1,6 @@
 # React Chartlet
 ![npm version](https://img.shields.io/npm/v/react-chartlet)
-![minified size](https://img.shields.io/badge/minified%20size-730%20B-blue)
+![minified size](https://img.shields.io/badge/minified%20size-1.76%20KB-blue)
 
 A dead simple and tiny React charting library
 
