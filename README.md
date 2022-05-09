@@ -72,10 +72,10 @@ export default YourPage
 | data | array | `[]` | An array of numbers |
 | width | string | - | CSS width of your chart |
 | height | string | `100%` | CSS height of your chart |
-| colors | string | `CATEGORICAL` | CSS colours used for each data point |
+| colors | string | the `colors.CATEGORICAL` palette | CSS colours used for each data point |
 | style | object | `{}` | Directly set the style object of the svg container |
 | offset | number | 0 | Set the rotation offset between 0 and 1 |
-| hole | number | 0.5 | Percentage of the diameter cut out from the center |
+| hole | number | 0.5 | Donut hole size as a portion of the diameter |
 | segmentStyle | object | `{}` | Set the style object of all donut segments |
 | segmentStyles | array | - | Set the styles used for each donut segments |
 
