@@ -75,8 +75,8 @@ const Donut = ({
               hole={hole}
               width={autoWidth}
               height={autoHeight}
-              start={0.5}
-              end={1}/>
+              start={0.5 + offset}
+              end={1 + offset}/>
           </>}
           {/* Render multiple portions as seperate segments */}
           {data.length > 1 && portions.map((portion, i) =>
