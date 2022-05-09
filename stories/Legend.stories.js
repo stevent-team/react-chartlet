@@ -28,7 +28,7 @@ WithDonut.args = {
 
 export const WithDonutStyled = args => <div style={{ display: 'flex', gap: '2em' }}>
   <Donut {...args} width={200} />
-  <Legend {...args} style={{ color: 'white', fontSize: '1.3rem' }} />
+  <Legend {...args} style={{ color: 'rebeccapurple', 'background': 'pink', fontSize: '1.3rem' }} />
 </div>
 const withDonutStyledData = generateData()
 WithDonutStyled.args = {
