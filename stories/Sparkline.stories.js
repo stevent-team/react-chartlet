@@ -16,15 +16,17 @@ export const Tooltip = args => <Sparkline data={[0,2,8,3,6,3,6]} height="100px" 
   handle: point => {
     const tooltip = document.getElementById('rc-tooltip') || document.createElement('div')
     tooltip.id = 'rc-tooltip'
-    tooltip.style.position = 'fixed'
-    console.log(point)
-    tooltip.style.top = point.y + 'px'
-    tooltip.style.left = point.x + 'px'
-    tooltip.style.background = 'white'
-    tooltip.style.padding = '.3em'
-    tooltip.style.fontFamily = 'sans-serif'
-    tooltip.style.border = '2px solid rebeccapurple'
-    tooltip.style.borderRadius = '5px'
+    tooltip.style.cssText = `
+      position: fixed;
+      top: ${point.y}px;
+      left: ${point.x}px;
+      background: mistyrose;
+      padding: .3em;
+      font-family: sans-serif;
+      border: 2px solid rebeccapurple;
+      border-radius: 5px;
+      pointer-events: none;
+    `
     tooltip.innerHTML = point.value
     if (!document.body.contains(tooltip)) document.body.append(tooltip)
   },
