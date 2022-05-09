@@ -13,7 +13,7 @@ yarn add react-chartlet
 ## Supported Charts
 
 - [x] Sparkline
-- [ ] Pie
+- [x] Pie
 - [ ] Bar
 - [ ] Line
 
