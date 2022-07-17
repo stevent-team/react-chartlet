@@ -1,0 +1,107 @@
+import Responsive from '../components/Responsive'
+import ChartSVG from '../components/ChartSVG'
+import { CATEGORICAL } from '../utils/colors'
+import { CategoricalProps, GenericChartProps, GroupedCategoricalProps, ChartColor } from '../types/charts'
+import { splitGroups, categoriesToGroups } from '../utils/data'
+import { makeAlignmentFunctions, splay } from '../utils/layout'
+
+type BarSizing = { automatic: true, groupGap: number } | { automatic: false, width: number }
+
+export interface BarChartProps extends GenericChartProps, CategoricalProps, GroupedCategoricalProps {
+  colors?: ChartColor[],
+  barSizing?: BarSizing,
+  barGap?: number,
+  groupGap?: number,
+  barRadius: number,
+}
+
+/**
+ * @note
+ * An ungrouped barchart is kind of like a grouped barchart w/ group sizes of 1. For this reason,
+ * all barcharts are actually grouped barcharts and categorical data is transformed into grouped categorical data.
+ */
+const BarChart: React.FC<BarChartProps> = ({
+  categories,
+  groups,
+  width,
+  height,
+  colors = CATEGORICAL,
+  barSizing = { automatic: true, groupGap: 15 },
+  barGap = 10,
+  barRadius = 8,
+  ...props
+}) => {
+  // Validate mutual exclusion between groups and categories
+  if (categories && groups)
+    throw new Error('Bad data argument: `categories` and `groups` are mutually exclusive. Only supply one')
+
+  // Resolve categories/groups
+  const [labels, valueLists] = splitGroups(groups ?? categoriesToGroups(categories))
+  const items = valueLists.map((_, i) => ({
+    label: labels[i],
+    values: valueLists[i],
+    colors: colors.slice(0, labels.length)
+  }))
+
+  // Determine element positions
+  const [getXPos, getYPos] = makeAlignmentFunctions(labels, valueLists.flat(1),
+    { distribute: true },
+    { distribute: false }
+  )
+
+  // Determine bar sizes
+  const getBarWidth = (width: number) => {
+    // Manual sizing
+    if (barSizing.automatic === false)
+      return barSizing.width
+
+    // Automatic sizing
+    const groupCount = items.length
+    const barCount = items.length * valueLists[0].length
+
+    const barGapsPerGroup = Math.max(0, valueLists[0].length - 1)
+    const barGaps = barGapsPerGroup * groupCount
+    const groupGaps = Math.max(0, groupCount - 1)
+
+    const availableWidth = width - ((barGap * barGaps) + (barSizing.groupGap * groupGaps) - barSizing.groupGap)
+    const barWidth = availableWidth / barCount
+
+    return (isNaN(barWidth) || barWidth < 0)
+      ? 0
+      : barWidth
+  }
+
+  return (
+    <Responsive style={{ width, height }}>
+      {({ width: autoWidth, height: autoHeight }) => (
+        <ChartSVG width={autoWidth} height={autoHeight} {...props} >
+          {/* Render groups */}
+          {items.map(({values, label, colors}, i) => <g key={label} transform={`translate(${getXPos(label, autoWidth)}, ${autoHeight})`}>
+            {/* Render bars */}
+            {values.map((value, j) => <Bar
+              key={j}
+              cx={splay(values.length, j) * (getBarWidth(autoWidth) + barGap)}
+              width={getBarWidth(autoWidth)}
+              height={getYPos(value, autoHeight)}
+              color={colors[j]}
+              radius={barRadius} />)}
+          </g>)}
+        </ChartSVG>
+      )}
+    </Responsive>
+  )
+}
+
+const Bar = ({ cx, width, height, color, radius=10 }) => {
+  const effectiveRadius = Math.min(radius, width/2)
+  return <rect
+    x={cx-width/2}
+    width={width}
+    height={height+effectiveRadius}
+    y={-height}
+    fill={color}
+    rx={effectiveRadius}
+    ry={effectiveRadius} />
+}
+
+export default BarChart

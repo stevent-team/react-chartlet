@@ -1,6 +1,6 @@
 import { DonutChart } from '../src'
 import { DonutChartProps } from '../src/charts/DonutChart'
-import { generateCategories } from './helpers/generateCategories'
+import { generateCategories } from './helpers/generate'
 
 export default { component: DonutChart }
 

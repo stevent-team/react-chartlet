@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { CategoricalData, ChartColor } from '../charts/charts'
+import { CategoricalData, ChartColor } from '../types/charts'
 import { CATEGORICAL } from '../utils/colors'
 
 interface LegendProps extends React.HTMLProps<HTMLDivElement> {
@@ -33,7 +33,8 @@ const Legend: React.FC<LegendProps> = ({
   percentages=false,
   colors=CATEGORICAL,
   bulletSize='15px',
-  ...props }) => {
+  ...props
+}) => {
   // Must be at least one category
   if (!Object.keys(categories ?? {})?.length)
     throw new Error('Bad Data Exception: expected at least one category')

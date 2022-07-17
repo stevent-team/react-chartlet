@@ -2,13 +2,15 @@ import Responsive from '../components/Responsive'
 import ChartSVG from '../components/ChartSVG'
 import { CATEGORICAL } from '../utils/colors'
 import { TAU } from '../utils/constants'
-import { CategoricalProps, GenericChartProps } from './charts'
+import { CategoricalProps, ChartColor, GenericChartProps } from '../types/charts'
+import { splitCategories } from '../utils/data'
 
 export interface DonutChartProps extends GenericChartProps, CategoricalProps {
   segmentStyle?: React.CSSProperties,
   segmentStyles?: React.CSSProperties[],
   offset?: number,
   hole?: number,
+  colors?: ChartColor[],
 }
 
 const DonutChart: React.FC<DonutChartProps> = ({
@@ -22,12 +24,13 @@ const DonutChart: React.FC<DonutChartProps> = ({
   hole=.5,
   ...props
 }) => {
+  const [labels, values] = splitCategories(categories)
+
   // Must be at least one category
-  if (!Object.keys(categories ?? {})?.length)
+  if (!labels?.length)
     throw new Error('Bad Data Exception: expected at least one category')
 
   // Calculate the angle segments for each category
-  const values = Object.values(categories)
   const sum = values.reduce((a, b) => a + b, 0)
   const portions = values.map((x, i) => {
     const previousSum = values.slice(0, i).reduce((a, b) => a + b, 0)

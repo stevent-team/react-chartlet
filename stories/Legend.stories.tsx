@@ -1,5 +1,5 @@
 import { Legend, DonutChart } from '../src'
-import { generateCategories } from './helpers/generateCategories'
+import { generateCategories } from './helpers/generate'
 
 export default { component: Legend }
 
