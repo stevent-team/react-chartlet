@@ -4,6 +4,8 @@ import { CATEGORICAL } from '../utils/colors'
 import { TAU } from '../utils/constants'
 import { CategoricalProps, ChartColor, GenericChartProps } from '../types/charts'
 import { splitCategories } from '../utils/data'
+import { useContext } from 'react'
+import { ChartletContext } from '../components/Chartlet'
 
 export interface DonutChartProps extends GenericChartProps, CategoricalProps {
   segmentStyle?: React.CSSProperties,
@@ -16,7 +18,7 @@ export interface DonutChartProps extends GenericChartProps, CategoricalProps {
 const DonutChart: React.FC<DonutChartProps> = ({
   categories,
   width,
-  height = '100%',
+  height,
   colors = CATEGORICAL,
   segmentStyle={},
   segmentStyles=[],
@@ -24,6 +26,10 @@ const DonutChart: React.FC<DonutChartProps> = ({
   hole=.5,
   ...props
 }) => {
+  const { autoWidth, autoHeight } = useContext(ChartletContext)
+  width = width ?? autoWidth
+  height = height ?? autoHeight
+
   const [labels, values] = splitCategories(categories)
 
   // Must be at least one category
@@ -38,43 +44,39 @@ const DonutChart: React.FC<DonutChartProps> = ({
   })
 
   return (
-    <Responsive style={{ width, height }}>
-      {({ width: autoWidth, height: autoHeight }) => (
-        <ChartSVG width={autoWidth} height={autoHeight} {...props} >
-          {/* Render a single portion as two identical segments */}
-          {values.length === 1 && <>
-            <CircleSegment
-              fill={colors?.[0]}
-              style={{...segmentStyle, ...segmentStyles?.[0]}}
-              hole={hole}
-              width={autoWidth}
-              height={autoHeight}
-              start={0 + offset}
-              end={0.5 + offset}/>
-            <CircleSegment
-              fill={colors[0]}
-              style={{...segmentStyle, ...segmentStyles?.[0]}}
-              hole={hole}
-              width={autoWidth}
-              height={autoHeight}
-              start={0.5 + offset}
-              end={1 + offset}/>
-          </>}
-          {/* Render multiple portions as seperate segments */}
-          {values.length > 1 && portions.map((portion, i) =>
-            <CircleSegment
-              key={i}
-              fill={colors?.[i % colors?.length]}
-              width={autoWidth}
-              height={autoHeight}
-              start={portion.start + offset}
-              end={portion.end + offset}
-              hole={hole}
-              style={{...segmentStyle, ...segmentStyles?.[i] }} />
-          )}
-        </ChartSVG>
+    <ChartSVG width={width} height={height} {...props} >
+      {/* Render a single portion as two identical segments */}
+      {values.length === 1 && <>
+        <CircleSegment
+          fill={colors?.[0]}
+          style={{...segmentStyle, ...segmentStyles?.[0]}}
+          hole={hole}
+          width={width}
+          height={height}
+          start={0 + offset}
+          end={0.5 + offset}/>
+        <CircleSegment
+          fill={colors[0]}
+          style={{...segmentStyle, ...segmentStyles?.[0]}}
+          hole={hole}
+          width={width}
+          height={height}
+          start={0.5 + offset}
+          end={1 + offset}/>
+      </>}
+      {/* Render multiple portions as seperate segments */}
+      {values.length > 1 && portions.map((portion, i) =>
+        <CircleSegment
+          key={i}
+          fill={colors?.[i % colors?.length]}
+          width={width}
+          height={height}
+          start={portion.start + offset}
+          end={portion.end + offset}
+          hole={hole}
+          style={{...segmentStyle, ...segmentStyles?.[i] }} />
       )}
-    </Responsive>
+    </ChartSVG>
   )
 }
 

@@ -1,6 +1,6 @@
 import { CategoricalData, GroupedCategoricalData } from '../types/charts'
 
-const invertListOfPairsOrRecord = <K extends string | number | symbol, V>(pairs: Record<K, V> | [K, V][]): [K[], V[]] => {
+export const invertListOfPairsOrRecord = <K extends string | number | symbol, V>(pairs: Record<K, V> | [K, V][]): [K[], V[]] => {
   return Array.isArray(pairs)
     ? pairs.reduce(([labels, values], [label, value]) => [[...labels, label], [...values, value]], [[], []])
     : [Object.keys(pairs), Object.values(pairs)]

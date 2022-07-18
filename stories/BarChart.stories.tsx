@@ -1,10 +1,10 @@
-import { BarChart } from '../src'
+import { BarChart, Chartlet } from '../src'
 import { BarChartProps } from '../src/charts/BarChart'
 import { generateCategories, generateGroups } from './helpers/generate'
 
 export default { component: BarChart }
 
-const Template = args => <BarChart {...args} />
+const Template = args => <Chartlet><BarChart {...args} /></Chartlet>
 
 export const Categories = Template.bind({})
 Categories.args = {

@@ -1,10 +1,10 @@
-import { DonutChart } from '../src'
+import { DonutChart, Chartlet } from '../src'
 import { DonutChartProps } from '../src/charts/DonutChart'
 import { generateCategories } from './helpers/generate'
 
 export default { component: DonutChart }
 
-const Template = args => <DonutChart {...args} />
+const Template = args => <Chartlet><DonutChart {...args} /></Chartlet>
 
 export const Unstyled = Template.bind({})
 Unstyled.args = {

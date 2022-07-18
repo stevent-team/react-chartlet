@@ -1,3 +1,6 @@
+import { useContext } from "react"
+import { ChartletContext } from "./Chartlet"
+
 const ChartSVG: React.FC<React.SVGProps<SVGSVGElement>> = ({
   width,
   height,

@@ -1,9 +1,11 @@
+import { useContext } from 'react'
 import Responsive from '../components/Responsive'
 import ChartSVG from '../components/ChartSVG'
 import { CATEGORICAL } from '../utils/colors'
 import { CategoricalProps, GenericChartProps, GroupedCategoricalProps, ChartColor } from '../types/charts'
 import { splitGroups, categoriesToGroups } from '../utils/data'
 import { makeAlignmentFunctions, splay } from '../utils/layout'
+import { ChartletContext } from '../components/Chartlet'
 
 type BarSizing = { automatic: true, groupGap: number } | { automatic: false, width: number }
 
@@ -31,6 +33,11 @@ const BarChart: React.FC<BarChartProps> = ({
   barRadius = 8,
   ...props
 }) => {
+  // Resolve dimensions
+  const { autoWidth, autoHeight } = useContext(ChartletContext)
+  width = width ?? autoWidth
+  height = height ?? autoHeight
+
   // Validate mutual exclusion between groups and categories
   if (categories && groups)
     throw new Error('Bad data argument: `categories` and `groups` are mutually exclusive. Only supply one')
@@ -72,23 +79,19 @@ const BarChart: React.FC<BarChartProps> = ({
   }
 
   return (
-    <Responsive style={{ width, height }}>
-      {({ width: autoWidth, height: autoHeight }) => (
-        <ChartSVG width={autoWidth} height={autoHeight} {...props} >
-          {/* Render groups */}
-          {items.map(({values, label, colors}, i) => <g key={label} transform={`translate(${getXPos(label, autoWidth)}, ${autoHeight})`}>
-            {/* Render bars */}
-            {values.map((value, j) => <Bar
-              key={j}
-              cx={splay(values.length, j) * (getBarWidth(autoWidth) + barGap)}
-              width={getBarWidth(autoWidth)}
-              height={getYPos(value, autoHeight)}
-              color={colors[j]}
-              radius={barRadius} />)}
-          </g>)}
-        </ChartSVG>
-      )}
-    </Responsive>
+    <ChartSVG width={width} height={height} {...props}>
+      {/* Render groups */}
+      {items.map(({values, label, colors}, i) => <g key={label} transform={`translate(${getXPos(label, width)}, ${height})`}>
+        {/* Render bars */}
+        {values.map((value, j) => <Bar
+          key={j}
+          cx={splay(values.length, j) * (getBarWidth(width) + barGap)}
+          width={getBarWidth(width)}
+          height={getYPos(value, height)}
+          color={colors[j]}
+          radius={barRadius} />)}
+      </g>)}
+    </ChartSVG>
   )
 }
 
