@@ -31,25 +31,25 @@ CategoriesWithRules.args = {
   hRules: true,
 } as AxesProps
 
-export const BarChartPlain = args => <Chartlet><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
+export const BarChartPlain = args => <Chartlet height={300}><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
 BarChartPlain.args = {
   categories: generateCategories(6),
 } as AxesProps
 
-export const BarChartWithRules = args => <Chartlet><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
+export const BarChartWithRules = args => <Chartlet height={300}><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
 BarChartWithRules.args = {
   categories: generateCategories(6),
   hRules: true,
 } as AxesProps
 
-export const BarChartGroupsWithRules = args => <Chartlet><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
+export const BarChartGroupsWithRules = args => <Chartlet height={300}><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
 BarChartGroupsWithRules.args = {
   groups: generateGroups(6),
   hRules: true,
   barSizing: { automatic: true, groupGap: 50 },
 }
 
-export const BarChartGroupsLinear = args => <Chartlet><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
+export const BarChartGroupsLinear = args => <Chartlet height={300}><Axes {...args}><BarChart {...args}/></Axes></Chartlet>
 BarChartGroupsLinear.args = {
   groups: Array.from({ length: 10 }, (_v, i) => [`Cat ${i*2+1}`, [i+1, 20-2*i]]),
   barSizing: { automatic: true, groupGap: 50 },
