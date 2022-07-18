@@ -1,5 +1,5 @@
-import { Legend, DonutChart } from '../src'
-import { generateCategories } from './helpers/generate'
+import { Legend, DonutChart, BarChart, Chartlet, Axes } from '../src'
+import { generateCategories, generateGroups } from './helpers/generate'
 
 export default { component: Legend }
 
@@ -11,11 +11,26 @@ Unstyled.args = {
   height: 300,
 }
 
+export const Groups = Template.bind({})
+Groups.args = {
+  groups: generateGroups(),
+  groupLabels: ['X', 'Y'],
+  height: 300,
+}
+
 export const Percentages = Template.bind({})
 Percentages.args = {
   categories: generateCategories(),
   height: 300,
   percentages: true,
+}
+
+export const GroupsPercentages = Template.bind({})
+GroupsPercentages.args = {
+  groups: generateGroups(),
+  groupLabels: ['X', 'Y'],
+  percentages: true,
+  height: 300,
 }
 
 export const NoBullets = Template.bind({})
@@ -33,20 +48,38 @@ PercentagesNoBullets.args = {
   bullets: false,
 }
 
-export const WithDonut = args => <div style={{ display: 'flex', gap: '2em' }}>
-  <DonutChart {...args} width={200} />
-  <Legend {...args} />
+export const WithDonut = args => <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', width: '50%' }}>
+  <Chartlet height={250}>
+    <DonutChart {...args} />
+  </Chartlet>
+  <Legend {...args} style={{ fontSize: '1.5rem' }} />
 </div>
 WithDonut.args = {
   categories: generateCategories(),
-  height: 300,
 }
 
-export const WithDonutStyled = args => <div style={{ display: 'flex', gap: '2em' }}>
-  <DonutChart {...args} width={200} />
-  <Legend {...args} style={{ color: 'rebeccapurple', backgroundColor: 'pink', fontSize: '1.3rem' }} />
+export const WithDonutStyled = args => <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', width: '50%' }}>
+  <Chartlet height={250}>
+    <DonutChart {...args} />
+  </Chartlet>
+  <Legend {...args} style={{ fontSize: '1.5rem', color: 'rebeccapurple', backgroundColor: 'pink' }} />
 </div>
 WithDonutStyled.args = {
   categories: generateCategories(),
-  height: 300,
+}
+
+export const WithBarChartWithAxis = args => <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', width: '100%' }}>
+  <Chartlet height={250}>
+    <Axes {...args}>
+      <BarChart {...args} />
+    </Axes>
+  </Chartlet>
+  <Legend {...args} style={{ fontSize: '1.1rem', alignSelf: 'start' }} />
+</div>
+WithBarChartWithAxis.args = {
+  groups: generateGroups(),
+  groupLabels: ['Left Handed', 'Right Handed'],
+  barSizing: { automatic: true, groupGap: 150 },
+  hRules: true,
+  colors: ['cornflowerblue', 'violet'],
 }

@@ -4,32 +4,28 @@ import { generateCategories } from './helpers/generate'
 
 export default { component: DonutChart }
 
-const Template = args => <Chartlet><DonutChart {...args} /></Chartlet>
+const Template = args => <Chartlet height={300}><DonutChart {...args} /></Chartlet>
 
 export const Unstyled = Template.bind({})
 Unstyled.args = {
   categories: generateCategories(),
-  height: 300,
 } as DonutChartProps
 
 export const PieChart = Template.bind({})
 PieChart.args = {
   categories: generateCategories(),
-  height: 300,
   hole: 0,
 } as DonutChartProps
 
 export const FiftyFiftyDonut = Template.bind({})
 FiftyFiftyDonut.args = {
   categories: { 'a': 1, 'b': 1 },
-  height: 300,
   hole: .5,
 } as DonutChartProps
 
 export const FiftyFiftyOffsetDonut = Template.bind({})
 FiftyFiftyOffsetDonut.args = {
   categories: { 'a': 1, 'b': 1 },
-  height: 300,
   hole: .5,
   offset: .25,
 } as DonutChartProps
@@ -37,13 +33,11 @@ FiftyFiftyOffsetDonut.args = {
 export const OneCategory = Template.bind({})
 OneCategory.args = {
   categories: { 'a': 1 },
-  height: 300,
 } as DonutChartProps
 
 export const ManyCategories = Template.bind({})
 ManyCategories.args = {
   categories: generateCategories(15),
-  height: 300,
 } as DonutChartProps
 
 export const Styled = Template.bind({})
