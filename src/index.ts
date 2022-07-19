@@ -1,5 +1,6 @@
 export { default as DonutChart } from './charts/DonutChart'
 export { default as BarChart } from './charts/BarChart'
+export { default as LineChart } from './charts/LineChart'
 export { default as Legend } from './components/Legend'
 export { default as Axes } from './components/Axes'
 export { default as Chartlet } from './components/Chartlet'

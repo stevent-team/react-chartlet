@@ -14,7 +14,7 @@ export const generateGroups = (length = 3, values = 2): GroupedCategoricalData =
     .map((values, i) => [LETTERS[i % LETTERS.length], values])
 )
 
-export const generateSamples = (length = 3, max = 40): DataSamples => Array.from({ length: length }, () => [
-  Math.floor(Math.random() * max),
+export const generateSamples = (length = 3, max = 40): DataSamples => Array.from({ length: length }, (_, i) => [
+  i,
   Math.floor(Math.random() * max),
 ])

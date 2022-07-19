@@ -49,13 +49,8 @@ export const splay = (count: number, x: number) => {
     : x - Math.floor(count/2)
 }
 
-export const calculateTicks = (numbers: number[], interval: number): number[] => {
-  const min = Math.min(...numbers)
+export const calculateTicks = (numbers: number[], interval: number, bottom=0): number[] => {
   const max = Math.max(...numbers)
-  const range = max - min
-
-  // TEMP: return 10s
-  const bottom = 0
   const top = Math.ceil(max/interval)*interval
   const num = (top - bottom)/interval + 1
   return Array.from({ length: num }, (_, i) => bottom + i*interval)

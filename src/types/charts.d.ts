@@ -11,7 +11,7 @@ export interface GenericChartProps extends React.SVGProps<SVGSVGElement> {
 }
 export interface CategoricalProps { categories: CategoricalData }
 export interface GroupedCategoricalProps { groups: GroupedCategoricalData }
-export interface SampleProps { samples: DataSamples }
+export interface SamplesProps { samples: DataSamples }
 
 // Util Types
 export type ChartColor = string

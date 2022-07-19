@@ -1,6 +1,6 @@
 import { cloneElement, Children, ReactElement } from 'react'
 import ChartSVG from './ChartSVG'
-import { CategoricalProps, GroupedCategoricalProps, SampleProps } from '../types/charts'
+import { CategoricalProps, GroupedCategoricalProps, SamplesProps } from '../types/charts'
 import { invertListOfPairsOrRecord } from '../utils/data'
 import { makeAlignmentFunctions, calculateTicks, chooseReasonableTick } from '../utils/layout'
 import { useContext } from 'react'
@@ -9,7 +9,7 @@ import { ChartletContext } from './Chartlet'
 const DESIRED_TICKS_PER_PIXEL = 75
 
 type Side = 'top' | 'bottom' | 'left' | 'right'
-export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, SampleProps {
+export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, SamplesProps {
   width: number,
   height: number,
   hRules: boolean,
@@ -95,8 +95,8 @@ const Axes: React.FC<AxesProps> = ({
 
   const labelGutterHeight = 40
   const labelGutterWidth = 40
-  const topMargin = 40
-  const leftMargin = 40
+  const topMargin = 20
+  const leftMargin = 20
 
   const innerWidth = Math.max(0, width - (labelGutterWidth + leftMargin))
   const innerHeight = Math.max(0, height - (labelGutterWidth + topMargin))

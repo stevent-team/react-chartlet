@@ -68,18 +68,23 @@ WithDonutStyled.args = {
   categories: generateCategories(),
 }
 
-export const WithBarChartWithAxis = args => <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', width: '100%' }}>
+export const WithBarChartAndDonutChartWithAxis = args => <div style={{ display: 'grid', gridTemplateColumns: '2fr 2fr 1fr', width: '100%' }}>
   <Chartlet height={250}>
     <Axes {...args}>
       <BarChart {...args} />
     </Axes>
   </Chartlet>
+  <Chartlet height={250}>
+    <Axes {...args}>
+      <DonutChart {...args} />
+    </Axes>
+  </Chartlet>
   <Legend {...args} style={{ fontSize: '1.1rem', alignSelf: 'start' }} />
 </div>
-WithBarChartWithAxis.args = {
-  groups: generateGroups(),
+WithBarChartAndDonutChartWithAxis.args = {
+  categories: generateCategories(),
   groupLabels: ['Left Handed', 'Right Handed'],
   barSizing: { automatic: true, groupGap: 150 },
   hRules: true,
-  colors: ['cornflowerblue', 'violet'],
+  colors: ['cornflowerblue', 'violet', 'green'],
 }
