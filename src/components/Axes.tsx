@@ -14,6 +14,8 @@ export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, Sa
   height: number,
   hRules: boolean,
   vRules: boolean,
+  xLabelInterval?: number,
+  yLabelInterval?: number,
   xTickInterval?: number,
   yTickInterval?: number,
   ruleStyle?: React.CSSProperties,
@@ -33,6 +35,8 @@ const Axes: React.FC<AxesProps> = ({
   vRules,
   yTickInterval,
   xTickInterval,
+  xLabelInterval=1,
+  yLabelInterval=1,
   ruleColor='#bbb',
   ruleStyle={},
   labelStyle={},
@@ -53,86 +57,103 @@ const Axes: React.FC<AxesProps> = ({
     throw new Error('Bad input error: Must only provide one input source.')
 
   // Determine ticks
-  let [xTicks, yTicks, xMax, yMax] = [[], [], undefined, undefined]
+  let [xTicks, yTicks] = [[], []]
+  let [xMax, yMax] = [undefined, undefined]
+  let distributeX = true
   if (categories) {
     const [labels, values] = invertListOfPairsOrRecord(categories)
+    const yTick = yTickInterval ?? chooseReasonableTick(values, height / DESIRED_TICKS_PER_PIXEL)
+    yMax = Math.ceil(Math.max(...values) / yTick) * yTick
     xTicks = labels
-    yTicks = calculateTicks(values, yTickInterval ?? chooseReasonableTick(values, height / DESIRED_TICKS_PER_PIXEL))
-    yMax = Math.max(...values)
+    yTicks = calculateTicks(values, yTick)
   }
 
   if (groups) {
     const [labels, values] = invertListOfPairsOrRecord(groups)
+    const yTick = yTickInterval ?? chooseReasonableTick(values.flat(1), height / DESIRED_TICKS_PER_PIXEL)
+    yMax = Math.ceil(Math.max(...values.flat(1))/yTick) * yTick
     xTicks = labels
-    yTicks = calculateTicks(values.flat(1), yTickInterval ?? chooseReasonableTick(values.flat(1), height / DESIRED_TICKS_PER_PIXEL))
-    yMax = Math.max(...values.flat(1))
+    yTicks = calculateTicks(values.flat(1), yTick)
   }
 
   if (samples) {
     const [xValues, yValues] = invertListOfPairsOrRecord(samples)
-    xTicks = calculateTicks(xValues, xTickInterval ?? chooseReasonableTick(xValues, width / DESIRED_TICKS_PER_PIXEL))
-    yTicks = calculateTicks(yValues, yTickInterval ?? chooseReasonableTick(yValues, height / DESIRED_TICKS_PER_PIXEL))
-    xMax = Math.max(...xValues)
-    yMax = Math.max(...yValues)
+    const xTick = xTickInterval ?? chooseReasonableTick(xValues, width / DESIRED_TICKS_PER_PIXEL)
+    const yTick = yTickInterval ?? chooseReasonableTick(yValues, height / DESIRED_TICKS_PER_PIXEL)
+    xMax = Math.ceil(Math.max(...xValues)/xTick)*xTick
+    yMax = Math.ceil(Math.max(...yValues)/yTick)*yTick
+    xTicks = calculateTicks(xValues, xTick)
+    yTicks = calculateTicks(yValues, yTick)
+    distributeX = false
   } 
 
   // Make alignment functions
   const [getXPos, getYPos] = makeAlignmentFunctions(xTicks, yTicks,
-    { distribute: true, max: xMax },
+    { distribute: distributeX, max: xMax },
     { distribute: false, reverse: true, max: yMax },
   )
 
   const labelGutterHeight = 40
   const labelGutterWidth = 40
   const topMargin = 40
+  const leftMargin = 40
 
-  const innerWidth = Math.max(0, width - labelGutterWidth)
+  const innerWidth = Math.max(0, width - (labelGutterWidth + leftMargin))
   const innerHeight = Math.max(0, height - (labelGutterWidth + topMargin))
 
   return (
     <ChartSVG width={width} height={height} {...props}>
       {/* Labels */}
-      {xTicks.map(xTick => <foreignObject
-        key={xTick}
-        x={getXPos(xTick, innerWidth) - (innerWidth/xTicks.length)/2}
-        y={innerHeight+topMargin}
-        width={innerWidth/xTicks.length}
-        height={labelGutterHeight}>
-          <div style={{
-            height: labelGutterHeight,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'sans-serif',
-            ...labelStyle
-          }}>{String(xTick)}</div>
-      </foreignObject>)} 
+      {xTicks.map((xTick, i) => {
+        const x = getXPos(xTick, innerWidth) - (innerWidth/xTicks.length)/2 + leftMargin
+        if (i % xLabelInterval !== 0) return null
+        return <foreignObject
+          key={xTick}
+          x={x}
+          y={innerHeight+topMargin}
+          width={innerWidth/xTicks.length}
+          height={labelGutterHeight}>
+            <div style={{
+              height: labelGutterHeight,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'sans-serif',
+              ...labelStyle
+            }}>{String(xTick)}</div>
+        </foreignObject>
+      })} 
 
-      {yTicks.map(yTick => <foreignObject
-        key={yTick}
-        x={innerWidth}
-        y={getYPos(yTick, innerHeight) - (innerHeight/yTicks.length)/2 + topMargin}
-        width={labelGutterWidth}
-        height={innerHeight/yTicks.length}>
-          <div style={{
-            height: innerHeight/yTicks.length,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'sans-serif',
-            ...labelStyle
-          }}>{String(yTick)}</div>
-      </foreignObject>)}
+      {yTicks.map((yTick, i) => {
+        const y = getYPos(yTick, innerHeight) - (innerHeight/yTicks.length)/2 + topMargin
+        if (i % yLabelInterval !== 0) return null
+        return <foreignObject
+          key={yTick}
+          x={innerWidth+leftMargin}
+          y={y}
+          width={labelGutterWidth}
+          height={innerHeight/yTicks.length}>
+            <div style={{
+              height: innerHeight/yTicks.length,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: 'sans-serif',
+              ...labelStyle
+            }}>{String(yTick)}</div>
+        </foreignObject>
+      })}
 
       {/* Rules */}
-      {hRules && yTicks.map(yTick => <HRule key={yTick} x1={0} x2={innerWidth} y={getYPos(yTick, innerHeight) + topMargin} stroke={ruleColor} {...ruleStyle} /> )}
-      {vRules && xTicks.map(xTick => <VRule key={xTick} y1={0} y2={innerHeight+topMargin} x={getXPos(xTick, innerWidth)} stroke={ruleColor} {...ruleStyle} /> )}
+      {hRules && yTicks.map(yTick => <HRule key={yTick} x1={leftMargin} x2={innerWidth+leftMargin} y={getYPos(yTick, innerHeight) + topMargin} stroke={ruleColor} {...ruleStyle} /> )}
+      {vRules && xTicks.map(xTick => (getXPos(xTick, innerWidth) <= innerWidth) && <VRule key={xTick} y1={topMargin} y2={innerHeight+topMargin} x={getXPos(xTick, innerWidth) + leftMargin} stroke={ruleColor} {...ruleStyle} /> )}
 
       {/* Render Chart */}
       {Children.map(children, child => cloneElement(child as ReactElement, {
         width: innerWidth,
         height: innerHeight,
         y: topMargin,
+        x: leftMargin,
       }))}
     </ChartSVG>
   )

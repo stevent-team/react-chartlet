@@ -64,9 +64,9 @@ export const calculateTicks = (numbers: number[], interval: number): number[] =>
 export const chooseReasonableTick = (numbers: number[], desiredCount=10): number => {
   const max = Math.max(...numbers)
   const odds = [.2, .5, 1, 2, 5, 20, 50]
-  const tens = Array.from({ length: 20 }, (_, i) => parseFloat(`1e${i-10}`))
-    .map(x => Array.from({ length: 5 }, (_, i) => x * i))
-    .flat(1)
+  const tens = Array.from({ length: 20 }, (_, i) => Math.abs(i-10) > 2 && parseFloat(`1e${i-10}`))
+    .filter(x => x)
+    .flatMap(x => Array.from({ length: 5 }, (_, i) => x * i))
   const res = [...odds, ...tens]
     .map(tick => [tick, Math.pow((max / tick) - desiredCount, 2)])
     .sort((a, b) => a[1] - b[1])
