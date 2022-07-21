@@ -1,54 +1,48 @@
-import { Donut } from '../src'
+import { DonutChart, Chartlet } from '../src'
+import { DonutChartProps } from '../src/charts/DonutChart'
+import { generateCategories } from './helpers/generate'
 
-export default { component: Donut }
+export default { component: DonutChart }
 
-const Template = args => <Donut {...args} />
-
-const generateData = (length = 3) => Array.from({length}, () => Math.floor(Math.random() * 40))
+const Template = args => <Chartlet height={300}><DonutChart {...args} /></Chartlet>
 
 export const Unstyled = Template.bind({})
 Unstyled.args = {
-  data: generateData(),
-  height: 300,
-}
+  categories: generateCategories(),
+} as DonutChartProps
 
 export const PieChart = Template.bind({})
 PieChart.args = {
-  data: generateData(),
-  height: 300,
+  categories: generateCategories(),
   hole: 0,
-}
+} as DonutChartProps
 
 export const FiftyFiftyDonut = Template.bind({})
 FiftyFiftyDonut.args = {
-  data: [1, 1],
-  height: 300,
+  categories: { 'a': 1, 'b': 1 },
   hole: .5,
-}
+} as DonutChartProps
 
 export const FiftyFiftyOffsetDonut = Template.bind({})
 FiftyFiftyOffsetDonut.args = {
-  data: [1, 1],
-  height: 300,
+  categories: { 'a': 1, 'b': 1 },
   hole: .5,
   offset: .25,
-}
+} as DonutChartProps
 
 export const OneCategory = Template.bind({})
 OneCategory.args = {
-  data: [1],
-  height: 300,
-}
+  categories: { 'a': 1 },
+} as DonutChartProps
 
 export const ManyCategories = Template.bind({})
 ManyCategories.args = {
-  data: generateData(15),
-  height: 300,
-}
+  categories: generateCategories(15),
+} as DonutChartProps
 
 export const Styled = Template.bind({})
 Styled.args = {
-  data: generateData(),
+  categories: generateCategories(),
   width: 400,
   height: 400,
   style: { border: '4px solid rebeccapurple', background: 'mistyrose'},
@@ -59,25 +53,25 @@ Styled.args = {
     strokeWidth: 4,
   },
   margin: 10,
-}
+} as DonutChartProps
 
 export const SignatureSegment = args => <>
   <svg width={0} height={0}>
     <defs>
       <linearGradient id="myGradient">
-        <stop offset="50%"   stop-color="white" />
-        <stop offset="100%" stop-color="transparent" />
+        <stop offset="50%" stopColor="white" />
+        <stop offset="100%" stopColor="transparent" />
       </linearGradient>
     </defs>
   </svg>
-  <Donut {...args} />
+  <DonutChart {...args} />
 </>
 SignatureSegment.args = {
-  data: generateData(),
+  categories: generateCategories(),
   width: 400,
   height: 400,
   segmentStyles: [null, {
     fill: 'url(#myGradient)',
   }],
   margin: 10,
-}
+} as DonutChartProps
