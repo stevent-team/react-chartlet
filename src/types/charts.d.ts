@@ -2,7 +2,7 @@
 // Data Types
 export type CategoricalData = Record<string, number> | [string, number][]
 export type GroupedCategoricalData = Record<string, number[]> | [string, number[]][]
-export type DataSamples = [number, number][]
+export type SeriesData = [number, number][][]
 
 // Prop Types
 export interface GenericChartProps extends React.SVGProps<SVGSVGElement> {
@@ -11,7 +11,7 @@ export interface GenericChartProps extends React.SVGProps<SVGSVGElement> {
 }
 export interface CategoricalProps { categories: CategoricalData }
 export interface GroupedCategoricalProps { groups: GroupedCategoricalData }
-export interface SamplesProps { samples: DataSamples }
+export interface SeriesProps { series: SeriesData }
 
 // Util Types
 export type ChartColor = string

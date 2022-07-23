@@ -1,4 +1,4 @@
-import { CategoricalData, GroupedCategoricalData, DataSamples } from '../../src/types/charts'
+import { CategoricalData, GroupedCategoricalData, SeriesData } from '../../src/types/charts'
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVXWYZ'.split('')
 
@@ -14,7 +14,10 @@ export const generateGroups = (length = 3, values = 2): GroupedCategoricalData =
     .map((values, i) => [LETTERS[i % LETTERS.length], values])
 )
 
-export const generateSamples = (length = 3, max = 40): DataSamples => Array.from({ length: length }, (_, i) => [
-  i,
-  Math.floor(Math.random() * max),
-])
+export const generateSeries = (series=2, length =3, max = 40): SeriesData => 
+  Array.from({ length: series }, () =>
+    Array.from({ length: length }, (_, i) => [
+      i,
+      Math.floor(Math.random() * max),
+    ])
+  )

@@ -1,19 +1,24 @@
 import { useContext } from 'react'
 import { ChartletContext } from '../components/Chartlet'
 import ChartSVG from '../components/ChartSVG'
-import { GenericChartProps, SamplesProps } from '../types/charts'
+import { ChartColor, GenericChartProps, SeriesProps } from '../types/charts'
+import { CATEGORICAL } from '../utils/colors'
 import { invertListOfPairsOrRecord } from '../utils/data'
 import { makeAlignmentFunctions } from '../utils/layout'
 
-export interface LineChartProps extends GenericChartProps, SamplesProps {
+export interface LineChartProps extends GenericChartProps, SeriesProps {
   pathStyle?: React.CSSProperties,
+  pathStyles?: React.CSSProperties[],
+  colors?: ChartColor[],
 }
 
 const LineChart: React.FC<LineChartProps> = ({
-  samples,
+  series,
   width,
   height,
+  colors=CATEGORICAL,
   pathStyle={},
+  pathStyles=[],
   ...props
 }) => {
   // Resolve dimensions
@@ -22,33 +27,46 @@ const LineChart: React.FC<LineChartProps> = ({
   height = height ?? autoHeight
 
   // Check data source
-  if (!samples)
-    throw new Error('Bad data argument: expected samples')
+  if (!series)
+    throw new Error('Bad data argument: expected series')
 
   // Resolve categories/groups
-  const [xValues, yValues] = invertListOfPairsOrRecord(samples)
+  const seriesPositions = series.map(points => invertListOfPairsOrRecord(points))
 
   // Determine element positions
+  const xValues = seriesPositions.map(([xPoints, _]) => xPoints).flat(1)
+  const yValues = seriesPositions.map(([_, yPoints]) => yPoints).flat(1)
   const [getXPos, getYPos] = makeAlignmentFunctions(xValues, yValues,
     { distribute: false },
     { distribute: false, reverse: true }
   )
 
   // Create points
-  const points = xValues
-    .sort((x1, x2) => x1 - x2)
-    .map((_, i) => ({
-    x: getXPos(xValues[i], width),
-    y: getYPos(yValues[i], height),
-  }))
+  const seriesPoints = seriesPositions.map(([xValues, yValues]) =>
+    xValues
+      .sort((x1, x2) => x1 - x2)
+      .map((_, i) => ({ x: getXPos(xValues[i], width), y: getYPos(yValues[i], height)}))
+  )
 
   // Generate svg path data
-  const pathData = points
-    .map(({x, y}, i) =>`${i === 0 ? 'M' : 'L'} ${x} ${y}`)
-    .join(' ')
+  const seriesPathData = seriesPoints.map(points =>
+    points
+      .map(({ x, y }, i) =>`${i === 0 ? 'M' : 'L'} ${x} ${y}`)
+      .join(' ')
+  )
 
   return <ChartSVG width={width} height={height} {...props}>
-    <path d={pathData} fill='none' stroke='red' strokeWidth={3} strokeLinejoin='round' strokeLinecap='round' style={pathStyle}/>
+    {seriesPathData.map((pathData, i) =>
+      <path
+        d={pathData}
+        fill='none'
+        stroke={colors[i]}
+        strokeWidth={3}
+        strokeLinejoin='round'
+        strokeLinecap='round'
+        style={{...pathStyle, ...pathStyles?.[i] ?? {}}}
+      />
+    )}
   </ChartSVG>
 }
 

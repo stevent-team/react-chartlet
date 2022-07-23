@@ -1,6 +1,6 @@
 import { cloneElement, Children, ReactElement } from 'react'
 import ChartSVG from './ChartSVG'
-import { CategoricalProps, GroupedCategoricalProps, SamplesProps } from '../types/charts'
+import { CategoricalProps, GroupedCategoricalProps, SeriesProps } from '../types/charts'
 import { invertListOfPairsOrRecord } from '../utils/data'
 import { makeAlignmentFunctions, calculateTicks, chooseReasonableTick } from '../utils/layout'
 import { useContext } from 'react'
@@ -8,8 +8,8 @@ import { ChartletContext } from './Chartlet'
 
 const DESIRED_TICKS_PER_PIXEL = 75
 
-type Side = 'top' | 'bottom' | 'left' | 'right'
-export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, SamplesProps {
+// type Side = 'top' | 'bottom' | 'left' | 'right'
+export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, SeriesProps {
   width: number,
   height: number,
   hRules: boolean,
@@ -21,12 +21,16 @@ export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, Sa
   ruleStyle?: React.CSSProperties,
   ruleColor?: string,
   labelStyle?: React.CSSProperties,
+  labelGutterWidth?: number,
+  labelGutterHeight?: number,
+  topMargin?: number,
+  leftMargin?: number,
   // xLabels: boolean | Side[],
   // yLabels: boolean | Side[],
 }
 
 const Axes: React.FC<AxesProps> = ({
-  samples,
+  series,
   categories,
   groups,
   width,
@@ -40,6 +44,10 @@ const Axes: React.FC<AxesProps> = ({
   ruleColor='#bbb',
   ruleStyle={},
   labelStyle={},
+  labelGutterWidth=40,
+  labelGutterHeight=40,
+  topMargin=20,
+  leftMargin=20,
   children,
   ...props
 }) => {
@@ -53,7 +61,7 @@ const Axes: React.FC<AxesProps> = ({
   // yLabels = yLabels === true ? ['bottom'] : yLabels
 
   // Must have only one data source
-  if (Number(samples) + Number(categories) + Number(groups) > 1)
+  if (Number(series) + Number(categories) + Number(groups) > 1)
     throw new Error('Bad input error: Must only provide one input source.')
 
   // Determine ticks
@@ -76,8 +84,8 @@ const Axes: React.FC<AxesProps> = ({
     yTicks = calculateTicks(values.flat(1), yTick)
   }
 
-  if (samples) {
-    const [xValues, yValues] = invertListOfPairsOrRecord(samples)
+  if (series) {
+    const [xValues, yValues] = invertListOfPairsOrRecord(series.flat(1))
     const xTick = xTickInterval ?? chooseReasonableTick(xValues, width / DESIRED_TICKS_PER_PIXEL)
     const yTick = yTickInterval ?? chooseReasonableTick(yValues, height / DESIRED_TICKS_PER_PIXEL)
     xMax = Math.ceil(Math.max(...xValues)/xTick)*xTick
@@ -93,11 +101,7 @@ const Axes: React.FC<AxesProps> = ({
     { distribute: false, reverse: true, max: yMax },
   )
 
-  const labelGutterHeight = 40
-  const labelGutterWidth = 40
-  const topMargin = 20
-  const leftMargin = 20
-
+  // Determine size of inner chart region
   const innerWidth = Math.max(0, width - (labelGutterWidth + leftMargin))
   const innerHeight = Math.max(0, height - (labelGutterWidth + topMargin))
 
