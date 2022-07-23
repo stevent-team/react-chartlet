@@ -6,13 +6,26 @@ export default { component: LineChart }
 
 const Template = args => <Chartlet height={200}><LineChart {...args} /></Chartlet>
 
-export const Series = Template.bind({})
-Series.args = {
+export const SingleSeries = Template.bind({})
+SingleSeries.args = {
+  series: generateSeries(1, 6),
+} as LineChartProps
+
+export const MultipleSeries = Template.bind({})
+MultipleSeries.args = {
   series: generateSeries(2, 6),
 } as LineChartProps
 
-export const SeriesWithAxes = args => <Chartlet height={300}><Axes {...args}><LineChart {...args} /></Axes></Chartlet>
-SeriesWithAxes.args = {
+export const SingleSeriesWithAxes = args => <Chartlet height={300}><Axes {...args}><LineChart {...args} /></Axes></Chartlet>
+SingleSeriesWithAxes.args = {
+  series: generateSeries(1, 6),
+  hRules: true,
+  vRules: true,
+  xLabelInterval: 2,
+} as LineChartProps
+
+export const MultipleSeriesWithAxes = args => <Chartlet height={300}><Axes {...args}><LineChart {...args} /></Axes></Chartlet>
+MultipleSeriesWithAxes.args = {
   series: generateSeries(2, 6),
   hRules: true,
   vRules: true,
@@ -25,7 +38,7 @@ SeriesStyledWithAxes.args = {
   hRules: true,
   vRules: true,
   xLabelInterval: 2,
-  pathStyle: { strokeWidth: 6 },
+  pathStyle: { strokeWidth: 4 },
   pathStyles: [{
 
   }, { strokeDasharray: 10 }],
