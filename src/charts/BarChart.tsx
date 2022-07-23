@@ -1,11 +1,8 @@
-import { useContext } from 'react'
-import Responsive from '../components/Responsive'
 import ChartSVG from '../components/ChartSVG'
-import { CATEGORICAL } from '../utils/colors'
 import { CategoricalProps, GenericChartProps, GroupedCategoricalProps, ChartColor } from '../types/charts'
 import { splitGroups, categoriesToGroups } from '../utils/data'
 import { makeAlignmentFunctions, splay } from '../utils/layout'
-import { ChartletContext } from '../components/Chartlet'
+import useChartletCtx from '../hooks/useChartletCtx'
 
 type BarSizing = { automatic: true, groupGap: number } | { automatic: false, width: number }
 
@@ -14,7 +11,7 @@ export interface BarChartProps extends GenericChartProps, CategoricalProps, Grou
   barSizing?: BarSizing,
   barGap?: number,
   groupGap?: number,
-  barRadius: number,
+  barRadius?: number,
 }
 
 /**
@@ -23,20 +20,12 @@ export interface BarChartProps extends GenericChartProps, CategoricalProps, Grou
  * all barcharts are actually grouped barcharts and categorical data is transformed into grouped categorical data.
  */
 const BarChart: React.FC<BarChartProps> = ({
-  categories,
-  groups,
-  width,
-  height,
-  colors = CATEGORICAL,
-  barSizing = { automatic: true, groupGap: 15 },
-  barGap = 10,
+  barSizing = { automatic: true, groupGap: 150 },
+  barGap = 30,
   barRadius = 8,
   ...props
 }) => {
-  // Resolve dimensions
-  const { autoWidth, autoHeight } = useContext(ChartletContext)
-  width = width ?? autoWidth
-  height = height ?? autoHeight
+  const { width, height, colors, groups, categories } = useChartletCtx(props)
 
   // Validate mutual exclusion between groups and categories
   if (categories && groups)
@@ -70,7 +59,7 @@ const BarChart: React.FC<BarChartProps> = ({
     const barGaps = barGapsPerGroup * groupCount
     const groupGaps = Math.max(0, groupCount - 1)
 
-    const availableWidth = width - ((barGap * barGaps) + (barSizing.groupGap * groupGaps) - barSizing.groupGap)
+    const availableWidth = width - ((barGap * barGaps) + (barSizing.groupGap * groupGaps))
     const barWidth = availableWidth / barCount
 
     return (isNaN(barWidth) || barWidth < 0)

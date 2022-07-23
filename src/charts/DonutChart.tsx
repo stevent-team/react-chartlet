@@ -1,11 +1,8 @@
-import Responsive from '../components/Responsive'
 import ChartSVG from '../components/ChartSVG'
-import { CATEGORICAL } from '../utils/colors'
 import { TAU } from '../utils/constants'
 import { CategoricalProps, ChartColor, GenericChartProps } from '../types/charts'
 import { splitCategories } from '../utils/data'
-import { useContext } from 'react'
-import { ChartletContext } from '../components/Chartlet'
+import useChartletCtx from '../hooks/useChartletCtx'
 
 export interface DonutChartProps extends GenericChartProps, CategoricalProps {
   segmentStyle?: React.CSSProperties,
@@ -16,19 +13,13 @@ export interface DonutChartProps extends GenericChartProps, CategoricalProps {
 }
 
 const DonutChart: React.FC<DonutChartProps> = ({
-  categories,
-  width,
-  height,
-  colors = CATEGORICAL,
   segmentStyle={},
   segmentStyles=[],
   offset=0,
   hole=.5,
   ...props
 }) => {
-  const { autoWidth, autoHeight } = useContext(ChartletContext)
-  width = width ?? autoWidth
-  height = height ?? autoHeight
+  const { width, height, colors, categories } = useChartletCtx(props)
 
   const [labels, values] = splitCategories(categories)
 

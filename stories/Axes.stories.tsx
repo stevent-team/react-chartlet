@@ -1,6 +1,6 @@
 import { Axes, BarChart, Chartlet } from '../src'
 import { AxesProps } from '../src/components/Axes'
-import { generateCategories, generateGroups, generateSamples } from './helpers/generate'
+import { generateCategories, generateGroups, generateSeries } from './helpers/generate'
 
 export default { component: Axes }
 
@@ -32,19 +32,19 @@ CategoriesWithRules.args = {
 
 export const Samples = Template.bind({})
 Samples.args = {
-  samples: generateSamples(6),
+  series: generateSeries(2, 6),
 } as AxesProps
 
 export const SamplesWithRules = Template.bind({})
 SamplesWithRules.args = {
-  samples: generateSamples(6),
+  series: generateSeries(2, 6),
   hRules: true,
   vRules: true,
 } as AxesProps
 
 export const SamplesWithRulesSkipEveryOther = Template.bind({})
 SamplesWithRulesSkipEveryOther.args = {
-  samples: generateSamples(6),
+  series: generateSeries(2, 6),
   hRules: true,
   vRules: true,
   xLabelInterval: 2,

@@ -1,8 +1,6 @@
-import { useContext } from 'react'
-import { ChartletContext } from '../components/Chartlet'
 import ChartSVG from '../components/ChartSVG'
+import useChartletCtx from '../hooks/useChartletCtx'
 import { ChartColor, GenericChartProps, SeriesProps } from '../types/charts'
-import { CATEGORICAL } from '../utils/colors'
 import { invertListOfPairsOrRecord } from '../utils/data'
 import { makeAlignmentFunctions } from '../utils/layout'
 
@@ -13,18 +11,11 @@ export interface LineChartProps extends GenericChartProps, SeriesProps {
 }
 
 const LineChart: React.FC<LineChartProps> = ({
-  series,
-  width,
-  height,
-  colors=CATEGORICAL,
   pathStyle={},
   pathStyles=[],
   ...props
 }) => {
-  // Resolve dimensions
-  const { autoWidth, autoHeight } = useContext(ChartletContext)
-  width = width ?? autoWidth
-  height = height ?? autoHeight
+  const { width, height, colors, series } = useChartletCtx(props)
 
   // Check data source
   if (!series)
@@ -59,6 +50,7 @@ const LineChart: React.FC<LineChartProps> = ({
     {seriesPathData.map((pathData, i) =>
       <path
         d={pathData}
+        key={i}
         fill='none'
         stroke={colors[i]}
         strokeWidth={3}

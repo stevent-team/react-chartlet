@@ -1,7 +1,7 @@
-import { LineChart, Chartlet, GenericChart } from '../src'
+import { Chartlet, GenericChart } from '../src'
 import { generateCategories, generateSeries, } from './helpers/generate'
 
-export default { component: LineChart }
+export default { component: GenericChart }
 
 const Template = args => <Chartlet height={200}><GenericChart {...args} /></Chartlet>
 
@@ -16,4 +16,3 @@ AsLineChart.args = {
   type: 'line',
   series: generateSeries(2, 5),
 }
-

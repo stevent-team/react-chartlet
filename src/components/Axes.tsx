@@ -5,15 +5,16 @@ import { invertListOfPairsOrRecord } from '../utils/data'
 import { makeAlignmentFunctions, calculateTicks, chooseReasonableTick } from '../utils/layout'
 import { useContext } from 'react'
 import { ChartletContext } from './Chartlet'
+import useChartletCtx from '../hooks/useChartletCtx'
 
 const DESIRED_TICKS_PER_PIXEL = 75
 
 // type Side = 'top' | 'bottom' | 'left' | 'right'
 export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, SeriesProps {
-  width: number,
-  height: number,
-  hRules: boolean,
-  vRules: boolean,
+  width?: number,
+  height?: number,
+  hRules?: boolean,
+  vRules?: boolean,
   xLabelInterval?: number,
   yLabelInterval?: number,
   xTickInterval?: number,
@@ -30,13 +31,8 @@ export interface AxesProps extends CategoricalProps, GroupedCategoricalProps, Se
 }
 
 const Axes: React.FC<AxesProps> = ({
-  series,
-  categories,
-  groups,
-  width,
-  height,
-  hRules,
-  vRules,
+  hRules=false,
+  vRules=false,
   yTickInterval,
   xTickInterval,
   xLabelInterval=1,
@@ -51,10 +47,7 @@ const Axes: React.FC<AxesProps> = ({
   children,
   ...props
 }) => {
-  const chartletContext = useContext(ChartletContext)
-  const { autoWidth, autoHeight } = chartletContext
-  width = width ?? autoWidth
-  height = height ?? autoHeight
+  const { width, height, categories, groups, series } = useChartletCtx(props)
 
   // // Determine label sides
   // xLabels = xLabels === true ? ['right'] : xLabels
