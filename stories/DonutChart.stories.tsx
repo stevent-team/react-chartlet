@@ -35,6 +35,11 @@ OneCategory.args = {
   categories: { 'a': 1 },
 } as DonutChartProps
 
+export const OneNonZeroCategory = Template.bind({})
+OneNonZeroCategory.args = {
+  categories: { 'a': 1, 'b': 0, 'c': 0 },
+} as DonutChartProps
+
 export const ManyCategories = Template.bind({})
 ManyCategories.args = {
   categories: generateCategories(15),
