@@ -5,10 +5,7 @@
 A dead simple and tiny React charting library
 
 > **Warning**
-> 
-> This package is unstable and still in active development
-> You are more than welcome to contribute and make use of it but please
-> note that there will be breaking changes
+> This package is unstable and still in active development. You are more than welcome to contribute and make use of it but please note that there will be breaking changes
 
 ## Installation
 
@@ -60,9 +57,7 @@ const MyPage = () => (
 ### Legend
 
 > **Note**
-> 
-> Legends are not rendered using SVGs so they are placed outside of the Chartlet component.
-> This allows you to re-style them using flex or grid however you prefer.
+> Legends are not rendered using SVGs so they are placed outside of the Chartlet component. This allows you to re-style them using flex or grid however you prefer.
 
 ```js
 import { Chartlet, DonutChart, Legend } from '@stevent-team/react-chartlet'
@@ -105,9 +100,7 @@ const DynamicChart = ({ data }) =>
 ## Docs
 
 > **Note**
-> 
-> Coming soon...
-> (in the short term, check out the prop interfaces for each chart)
+> Coming soon... (in the short term, check out the prop interfaces for each chart)
 
 ## Development
 
