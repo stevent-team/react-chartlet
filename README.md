@@ -1,122 +1,110 @@
-# React Chartlet
-![npm version](https://img.shields.io/npm/v/react-chartlet)
-![minified size](https://img.shields.io/badge/minified%20size-1.76%20KB-blue)
+# 🍩 React Chartlet
+![npm version](https://img.shields.io/npm/v/@stevent-team/react-chartlet)
+<!-- ![minified size](https://img.shields.io/badge/minified%20size-1.76%20KB-blue) -->
 
 A dead simple and tiny React charting library
+
+> **Warning**
+> This package is unstable and still in active development
+> You are more than welcome to contribute and make use of it but please
+> note that there will be breaking changes
 
 ## Installation
 
 ```bash
-yarn add react-chartlet
+yarn add @stevent-team/react-chartlet
 ```
 
 ## Supported Charts
 
-- [x] Sparkline
-- [x] Pie
-- [ ] Bar
-- [ ] Line
+- [x] DonutChart
+- [x] BarChart
+- [x] LineChart
+- [ ] ScatterChart
+- [ ] PercentageChart
+- [ ] WordCloud
+- [ ] TimeSeries
 
 ## Examples
 
 Please note that all charts are responsive by default; they will grow to fill the width of their container, and have height set to `100%`. You can set a specific size on them, however if you don't your chart may not show up due to it's height being 0.
+> **TLDR**: If your chart doesn't appear, try setting an explicit height for it or its container 😎
 
-### Sparkline
-
-```js
-import { Sparkline } from 'react-chartlet'
-
-const YourPage = () => (
-  <Sparkline
-    data={[2, 5, 3, 8, 1]}
-    height="100px"
-  />
-)
-
-export default YourPage
-```
-
-### Donut
+### LineChart
 
 ```js
-import { Donut } from 'react-chartlet'
+import { Chartlet, LineChart } from '@stevent-team/react-chartlet'
+
+const series = [[0, 0], [1, 4], [2, 3], [3, 5]]
 
 const MyPage = () => (
-  <Donut
-    data={[2, 5, 3]}
-    height="100px"
-  />
+  <Chartlet series={[series]} height={300}>
+    <LineChart />
+  </Chartlet>
+)
+```
+
+### DonutChart
+
+```js
+import { Chartlet, DonutChart } from '@stevent-team/react-chartlet'
+
+const MyPage = () => (
+  <Chartlet categories={{ A: 10, B: 20 }} height={300}>
+    <DonutChart />
+  </Chartlet>
 )
 ```
 
 ### Legend
 
+> **Note**
+> Legends are not rendered using SVGs so they are placed outside of the Chartlet component.
+> This allows you to re-style them using flex or grid however you prefer.
+
 ```js
-import { Donut, Legend } from 'react-chartlet'
+import { Chartlet, DonutChart, Legend } from '@stevent-team/react-chartlet'
 
-const MyPage = () => {
-  const data = [
-    { label: 'Carrots', value: 3 },
-    { label: 'Tomatoes', value: 5 },
-    { label: 'Potatoes', value: 2 },
-  ]
-  return (
-    <div style={{ display: 'flex', gap: '2em' }}>
-      <Donut
-        data={data.map(row => row.value)}
-        height="100px"
-      />
-      <Legend
-        data={data.map(row => row.value)}
-        labels={data.map(row => row.label)}
-      />
-    </div>
-  )
-}
+const categories = { A: 10, B: 20 }
 
-export default YourPage
+export const MyPage = () =>
+  <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
+    <Chartlet categories={categories} height={250}>
+      <DonutChart />
+    </Chartlet>
+    <Legend categories={categories} />
+  </div>
 ```
-
 ## API Reference
 
-### Sparkline
+### Types
 
-| Property | Type | Default | Description |
-| - | - | - | - |
-| data | array | `[]` | An array of numbers |
-| width | string | - | CSS width of your chart |
-| height | string | `100%` | CSS height of your chart |
-| min | number | smallest datapoint in `data` array | The minimum value on the y axis |
-| max | number | largest datapoint in `data` array | The maximum value on the y axis |
-| margin | number or object | `{ top: 5, bottom: 5 }` | Margin between the border of the chart and the line, either as a number to set all sides, or an object to set specific sides, like `{ top: 5, right: 5, bottom: 5, left: 5 }` |
-| style | object | `{}` | Directly set the style object of the svg container |
-| lineStyle | object | `{}` | Set the style object of the line |
-| tooltip | object | `{}` | An object with two functions, `handle` and `close` |
+| Data Type | Prop Name | Format | Example | Supported Charts |
+| --------- | --------- | ------ | ------- | ---------------- |
+| CategoricalData | `categories` | `Record<string, number>` | `{ a: 1 }` | `DonutChart`, `BarChart` |
+| GroupedCategoricalData | `groups` | `Record<string, number[]>` | `{ a: [1, 2] }` | `BarChart` |
+| SeriesData | `series` | `[number, number][][]` | `[[[0, 0], [1, 1]]]` | `LineChart` |
 
-### Donut
+### Context
 
-| Property | Type | Default | Description |
-| - | - | - | - |
-| data | array | `[]` | An array of numbers |
-| width | string | - | CSS width of your chart |
-| height | string | `100%` | CSS height of your chart |
-| colors | array | The `colors.CATEGORICAL` palette | CSS colours used for each data point |
-| style | object | `{}` | Directly set the style object of the svg container |
-| offset | number | 0 | Set the rotation offset between 0 and 1 |
-| hole | number | 0.5 | Donut hole size as a portion of the diameter |
-| segmentStyle | object | `{}` | Set the style object of all donut segments |
-| segmentStyles | array | - | Set the styles used for each donut segments |
+Data props are shared to charts in the `<Chartlet/>` component using a context. However the `<Legend/>` should not be placed in a `<Chartlet>` and so must be explicitly passed data.
 
-### Legend
+### Generic Chart
 
-| Property | Type | Default | Description |
-| - | - | - | - |
-| data | array | `[]` | An array of numbers, should match your chart |
-| labels | array | `[]` | An array of strings, in the same order as your data array |
-| colors | array | the `colors.CATEGORICAL` palette | CSS colours used for each data point |
-| bulletSize | string | `15px` | The size of the colour bullets |
-| labelStyle | object | `{}` | Set the style object of all labels |
-| percentageStyle | object | `{}` | Set the style object of all percentage labels |
+The `<GenericChart />` component allows dynamically choosing between different chart components using a `type` prop.
+
+```jsx
+const DynamicChart = ({ data }) =>
+  <Chartlet>
+    <GenericChart type={data.isCategorical ? 'bar' : 'line'} />
+  </Chartlet>
+```
+
+## Docs
+
+> **Note**
+> Coming soon...
+> (in the short term, check out the prop interfaces for each chart)
 
 ## Development
 
@@ -127,3 +115,15 @@ To test the components in this library, follow the steps below:
 3. Run `yarn storybook` to start Storybook
 
 You can set up stories to test components using [this documentation](https://storybook.js.org/docs/react/writing-stories/introduction)
+
+## Contributing
+
+Issue contributions are greatly welcomed and appreciated!
+
+For now, PR contributions are temporarily closed while `react-chartlet` remains unstable. Thank you for your patience :)
+
+## License
+
+`react-chartlet` is licensed under MIT
+
+*Created with love by the [Stevent Team](https://stevent.club)* 💙
