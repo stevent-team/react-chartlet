@@ -1,5 +1,5 @@
 {
-  "name": "react-chartlet",
+  "name": "@stevent-team/react-chartlet",
   "version": "2.0.0",
   "description": "A dead simple and tiny charting library for React",
   "source": "src/index.ts",
