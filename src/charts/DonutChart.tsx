@@ -30,6 +30,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
   // Calculate the angle segments for each category
   const sum = values.reduce((a, b) => a + b, 0)
   const nonZeroCount = values.filter(value => value > 0).length
+  const firstNonZeroIndex = values.findIndex(value => value > 0)
   const portions = values.map((x, i) => {
     const previousSum = values.slice(0, i).reduce((a, b) => a + b, 0)
     return { start: previousSum / sum, end: (previousSum + x) / sum }
@@ -40,8 +41,8 @@ const DonutChart: React.FC<DonutChartProps> = ({
       {/* Render a single portion as two identical segments */}
       {nonZeroCount === 1 && <>
         <CircleSegment
-          fill={colors?.[0]}
-          style={{...segmentStyle, ...segmentStyles?.[0]}}
+          fill={colors?.[firstNonZeroIndex % colors.length]}
+          style={{...segmentStyle, ...segmentStyles?.[firstNonZeroIndex]}}
           hole={hole}
           width={width}
           height={height}
@@ -49,7 +50,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
           end={0.5 + offset}/>
         <CircleSegment
           fill={colors[0]}
-          style={{...segmentStyle, ...segmentStyles?.[0]}}
+          style={{...segmentStyle, ...segmentStyles?.[firstNonZeroIndex]}}
           hole={hole}
           width={width}
           height={height}
