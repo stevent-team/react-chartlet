@@ -4,13 +4,10 @@ import { splitGroups, categoriesToGroups } from '../utils/data'
 import { makeAlignmentFunctions, splay } from '../utils/layout'
 import useChartletCtx from '../hooks/useChartletCtx'
 
-type BarSizing = { automatic: true, groupGap: number } | { automatic: false, width: number }
-
 export interface BarChartProps extends GenericChartProps, CategoricalProps, GroupedCategoricalProps {
   colors?: ChartColor[],
-  barSizing?: BarSizing,
-  barGap?: number,
-  groupGap?: number,
+  barWidth?: number | { min: number, max: number, gap: number },
+  groupBarSpacing?: number,
   barRadius?: number,
 }
 
@@ -20,8 +17,8 @@ export interface BarChartProps extends GenericChartProps, CategoricalProps, Grou
  * all barcharts are actually grouped barcharts and categorical data is transformed into grouped categorical data.
  */
 const BarChart: React.FC<BarChartProps> = ({
-  barSizing = { automatic: true, groupGap: 150 },
-  barGap = 30,
+  barWidth = { min: 20, max: 300, gap: 30 },
+  groupBarSpacing = 5,
   barRadius = 8,
   ...props
 }) => {
@@ -48,23 +45,25 @@ const BarChart: React.FC<BarChartProps> = ({
   // Determine bar sizes
   const getBarWidth = (width: number) => {
     // Manual sizing
-    if (barSizing.automatic === false)
-      return barSizing.width
-
-    // Automatic sizing
+    if (typeof barWidth === 'number')
+      return barWidth
+    
+    // Determine space required for groupBarSpacing
     const groupCount = items.length
     const barCount = items.length * valueLists[0].length
+    const gapsPerGroup = Math.max(0, valueLists[0].length - 1)
+    const groupBarSpacingWidth = groupBarSpacing * gapsPerGroup * groupCount
 
-    const barGapsPerGroup = Math.max(0, valueLists[0].length - 1)
-    const barGaps = barGapsPerGroup * groupCount
-    const groupGaps = Math.max(0, groupCount - 1)
+    // Determine space required for gap
+    const gapWidth = barWidth.gap * Math.max(0, groupCount - 1)
 
-    const availableWidth = width - ((barGap * barGaps) + (barSizing.groupGap * groupGaps))
-    const barWidth = availableWidth / barCount
+    // Calculate desired available width and then desired bar width 
+    const availableWidth = width - (groupBarSpacingWidth + gapWidth)
+    const autoBarWidth = Math.max(barWidth.min, Math.min(barWidth.max, availableWidth / barCount))
 
-    return (isNaN(barWidth) || barWidth < 0)
+    return (isNaN(autoBarWidth) || autoBarWidth < 0)
       ? 0
-      : barWidth
+      : autoBarWidth
   }
 
   return (
@@ -74,7 +73,7 @@ const BarChart: React.FC<BarChartProps> = ({
         {/* Render bars */}
         {values.map((value, j) => <Bar
           key={j}
-          cx={splay(values.length, j) * (getBarWidth(width) + barGap)}
+          cx={splay(values.length, j) * (getBarWidth(width) + groupBarSpacing)}
           width={getBarWidth(width)}
           height={getYPos(value, height)}
           color={colors[j]}
