@@ -1,8 +1,8 @@
 # 🍩 React Chartlet
-![npm version](https://img.shields.io/npm/v/@stevent-team/react-chartlet)
-<!-- ![minified size](https://img.shields.io/badge/minified%20size-1.76%20KB-blue) -->
+[![npm version](https://img.shields.io/npm/v/@stevent-team/react-chartlet)](https://www.npmjs.com/package/@stevent-team/react-chartlet)
+[![minzip size](https://img.shields.io/bundlephobia/minzip/@stevent-team/react-chartlet)](https://bundlephobia.com/package/@stevent-team/react-chartlet)
 
-A dead simple and tiny React charting library
+A simple and tiny React charting library
 
 > **Warning**
 > This package is unstable and still in active development. You are more than welcome to contribute and make use of it but please note that there will be breaking changes
