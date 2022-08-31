@@ -84,7 +84,6 @@ export const WithBarChartAndDonutChartWithAxis = args => <div style={{ display: 
 WithBarChartAndDonutChartWithAxis.args = {
   categories: generateCategories(),
   groupLabels: ['Left Handed', 'Right Handed'],
-  barSizing: { automatic: true, groupGap: 150 },
   hRules: true,
   colors: ['cornflowerblue', 'violet', 'green'],
 }
