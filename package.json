@@ -1,7 +1,7 @@
 {
   "name": "@stevent-team/react-chartlet",
   "version": "0.2.0",
-  "description": "A dead simple and tiny charting library for React",
+  "description": "A simple and tiny charting library for React",
   "source": "src/index.ts",
   "main": "dist/main.js",
   "module": "dist/module.js",
@@ -10,10 +10,12 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build": "parcel build"
+    "build": "parcel build",
+    "ci:release": "yarn build && yarn changeset publish"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
+    "@changesets/cli": "^2.24.4",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.4.20",
