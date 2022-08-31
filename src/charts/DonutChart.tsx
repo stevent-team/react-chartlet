@@ -49,7 +49,7 @@ const DonutChart: React.FC<DonutChartProps> = ({
           start={0 + offset}
           end={0.5 + offset}/>
         <CircleSegment
-          fill={colors[0]}
+          fill={colors?.[firstNonZeroIndex % colors.length]}
           style={{...segmentStyle, ...segmentStyles?.[firstNonZeroIndex]}}
           hole={hole}
           width={width}
